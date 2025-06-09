@@ -21,6 +21,15 @@ class BlockingQueue {
  public:
   BlockingQueue(int capacity) : capacity_(capacity) {}
 
+  ~BlockingQueue() {
+    Node* itr = front_;
+    while (itr) {
+      Node* next = itr->next;
+      delete itr;
+      itr = next;
+    }
+  }
+
   void push(T&& element) noexcept {
     Lock lock(mutex_);
 
